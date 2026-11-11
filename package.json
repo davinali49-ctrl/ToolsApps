@@ -1,0 +1,32 @@
+{
+  "name": "toolsapps",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Konversi berkas & media, offline-first untuk desktop dan Android.",
+  "workspaces": [
+    "apps/web",
+    "apps/desktop",
+    "apps/server"
+  ],
+  "scripts": {
+    "dev:web": "npm -w @toolsapps/web run dev",
+    "dev:server": "npm -w @toolsapps/server run dev",
+    "dev:desktop": "npm -w @toolsapps/desktop run dev",
+    "build": "npm -w @toolsapps/web run build && npm -w @toolsapps/server run build && npm -w @toolsapps/desktop run build",
+    "typecheck": "npm -w @toolsapps/web run typecheck && npm -w @toolsapps/server run typecheck && npm -w @toolsapps/desktop run typecheck",
+    "dist:win": "npm -w @toolsapps/web run build && npm -w @toolsapps/desktop run dist",
+    "dist:win:unsigned": "npm -w @toolsapps/web run build && npm -w @toolsapps/desktop run dist:unsigned",
+    "android:sync": "npm -w @toolsapps/web run build && npm -w @toolsapps/web run cap:sync",
+    "android:build": "npm -w @toolsapps/web run build && npm -w @toolsapps/web run cap:sync && node scripts/build-android.mjs",
+    "icons": "node scripts/generate-icons.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "allowScripts": {
+    "electron@34.5.8": true,
+    "esbuild@0.28.2": true,
+    "esbuild@0.25.12": true,
+    "core-js@3.51.0": true
+  }
+}

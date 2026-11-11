@@ -1,0 +1,23 @@
+node_modules/
+dist/
+dist-electron/
+release/
+apps/desktop/renderer/
+apps/server/data/
+.env
+.env.local
+*.log
+.DS_Store
+Thumbs.db
+
+# Capacitor / Android
+apps/web/android/.gradle/
+apps/web/android/app/build/
+apps/web/android/build/
+apps/web/android/local.properties
+apps/web/android/.idea/
+apps/web/android/app/src/main/assets/public/
+apps/web/android/app/src/main/assets/capacitor.config.json
+apps/web/android/app/src/main/assets/capacitor.plugins.json
+apps/web/android/keystore/*.jks
+apps/web/android/keystore/keystore.properties

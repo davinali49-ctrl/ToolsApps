@@ -1,0 +1,16 @@
+node_modules
+**/node_modules
+**/dist
+**/dist-electron
+**/release
+**/.gradle
+**/build
+**/.idea
+**/android
+docs/screenshots
+.git
+.gitignore
+*.log
+.env
+.env.*
+!.env.example

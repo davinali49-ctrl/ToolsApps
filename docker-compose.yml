@@ -1,0 +1,50 @@
+name: toolsapps
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: apps/server/Dockerfile
+      args:
+        YTDLP_VERSION: latest
+    image: toolsapps/server:0.1.0
+    ports:
+      - "8787:8787"
+    environment:
+      PORT: 8787
+      HOST: 0.0.0.0
+      CORS_ORIGIN: "*"
+      MAX_UPLOAD_MB: "200"
+      JOB_TTL_MINUTES: "120"
+      MAX_MEDIA_MINUTES: "180"
+      LOG_LEVEL: info
+    volumes:
+      - server-data:/data
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:8787/api/health').then((r) => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"
+        ]
+      interval: 30s
+      timeout: 10s
+      start_period: 40s
+      retries: 3
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    image: toolsapps/web:0.1.0
+    ports:
+      - "8080:80"
+    depends_on:
+      server:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  server-data:

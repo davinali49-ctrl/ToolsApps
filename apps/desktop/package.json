@@ -1,0 +1,58 @@
+{
+  "name": "@toolsapps/desktop",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Aplikasi desktop ToolsApps",
+  "author": "ToolsApps",
+  "main": "dist/main.js",
+  "scripts": {
+    "dev": "concurrently -k \"npm:dev:web\" \"npm:dev:electron\"",
+    "dev:web": "npm --prefix ../web run dev",
+    "dev:electron": "wait-on tcp:127.0.0.1:5173 && npm run build && cross-env TOOLSAPP_DEV_URL=http://localhost:5173 electron .",
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "prepare:renderer": "node scripts/prepare-renderer.mjs",
+    "dist": "npm run prepare:renderer && npm run build && electron-builder --win nsis",
+    "dist:unsigned": "npm run prepare:renderer && npm run build && electron-builder --win nsis --config.win.signAndEditExecutable=false",
+    "dist:portable": "npm run prepare:renderer && npm run build && electron-builder --win portable"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "concurrently": "^9.1.2",
+    "cross-env": "^7.0.3",
+    "electron": "^34.0.0",
+    "electron-builder": "^25.1.8",
+    "typescript": "^5.7.2",
+    "wait-on": "^8.0.2"
+  },
+  "build": {
+    "appId": "id.toolsapps.desktop",
+    "productName": "ToolsApps",
+    "electronVersion": "34.5.8",
+    "npmRebuild": false,
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "renderer/**/*"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "ToolsApps-${version}-Setup.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "shortcutName": "ToolsApps"
+    }
+  }
+}
